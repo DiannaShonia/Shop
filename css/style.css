@@ -65,7 +65,7 @@ body{
     list-style: none;
     margin: 30px 0 0 30px;
     padding: 0;
-   
+    
 }
 
 input {
@@ -74,8 +74,8 @@ input {
 
 #list li {
     margin-top: 10px;
+    justify-content: space-between;
     display: flex;
-    justify-content: space-between
     
 }
 
@@ -83,46 +83,11 @@ input {
     background-image: url(../img/delete.png);
     width: 22px;
     height: 22px;
+    opacity: 0.7;
+    cursor: pointer;
     margin-right: 15px;
-    opacity: 0.7;
-    cursor: pointer;
-}
-
-.quantity-row {
-    display: flex;
-}
-
-.add-quantity {
-    background-image: url(../img/plus.png);
-    width: 22px;
-    height: 22px;
-    margin-right: 5px;
-    opacity: 0.7;
-    cursor: pointer;
-}
-
-.quantity {
-    width: 22px;
-    height: 22px;
-    margin-right: 5px;
-    border: 1px solid #000;
-    opacity: 0.7;
-    display: flex;
-    justify-content: center;
-    font-weight: bold;
-
 
 }
-
-.minus-quantity {
-    background-image: url(../img/minus.png);
-    width: 22px;
-    height: 22px;
-    margin-right: 5px;
-    opacity: 0.7;
-    cursor: pointer;
-}
-
 
 
 .counter {
