@@ -6,7 +6,6 @@ const addToBasketBtn = document.querySelectorAll('.basket-button');
 const list = document.getElementById('list');
 const totalPrice = document.createElement('p');
 let cart = [];
-let cartItem;
 let cartAfterDelete;
 
 
@@ -41,8 +40,6 @@ addToBasketBtn.forEach(function(item){
             }
 
             cart.push(product);
-            cartItem = document.createElement('li');
-
             renderCart();
         }
 
