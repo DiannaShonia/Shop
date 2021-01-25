@@ -6,8 +6,6 @@ const addToBasketBtn = document.querySelectorAll('.basket-button');
 const list = document.getElementById('list');
 const totalPrice = document.createElement('p');
 let cart = [];
-let cartAfterDelete;
-
 
 
 basket.addEventListener('click', () => {
@@ -27,7 +25,9 @@ addToBasketBtn.forEach(function(item){
         if (clickedProduct.length){
             cart.map((product) => {
                 if (product.id === this.dataset.id) 
-                product.quantity ++             
+                product.quantity = product.quantity + 1
+                
+                return product;
             })
             renderCart();
         }
@@ -62,10 +62,7 @@ const renderCart = () => {
 }
 
 const deleteItem = (item) => {
-        cartAfterDelete = cart.filter(product => (product.id !== item))
-        cart = cartAfterDelete;
-        console.log(cart)
-
+        cart = cart.filter(product => (product.id !== item))
 
         countTotalPrice();
         countTotalQuantity();
