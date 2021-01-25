@@ -116,7 +116,7 @@ input {
 
 .wrapper{
       width: 85%;
-      margin:auto;
+      margin:0 auto;
   }
 
 .card {
@@ -124,6 +124,7 @@ input {
     background-color:#e5effd;
     padding: 10px;
     border-radius: 20px;
+    margin-right: 20px;
 }
 
 .card img {
