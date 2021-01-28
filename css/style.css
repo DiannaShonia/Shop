@@ -127,16 +127,22 @@ input {
     margin-right: 20px;
 }
 
-.card img {
+.card>img {
+    padding: 0 30px;
     width:350px;
-    height: 233px;
-    border: 1px solid #c9d5e2;
-    border-radius:10px;
-  }
+    height: 300px;
+    border-bottom: 1px solid #c9d5e2;
+    box-sizing: border-box;
+}
 
 .product-name {
     padding: 0 10px;
     font-weight: 400;
+    margin-bottom: 10px;
+}
+
+.product-price {
+    font-size:large;    
 }
 
 .block {
@@ -144,13 +150,13 @@ input {
       justify-content:space-between;
       padding: 0 10px;
       margin-bottom: 10px;
-  }
+}
 
 .basket-button img{
-      width:30px;
+      width:32px;
       height: auto;
       border: 0;
-  }
+}
 
 .basket-button {
     border: 0;

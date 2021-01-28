@@ -2,54 +2,126 @@
 const basket = document.querySelector('.basket');
 const basketDropdown = document.querySelector('.basket-dropdown');
 const counter = document.querySelector('.counter');
+const container = document.querySelector('.container');
 const addToBasketBtn = document.querySelectorAll('.basket-button');
 const list = document.getElementById('list');
 const totalPrice = document.createElement('p');
 let cart = [];
 
 
-basket.addEventListener('click', () => {
-    if (basketDropdown.style.display == 'block'){
-        basketDropdown.style.display = 'none'
-    } else {
-        basketDropdown.style.display = 'block';
+const products = [
+    product1 = {
+        id: 1,
+        title: "Baconator",
+        price: '14$',
+        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/rcevvuiijfbaibsr1k6s',
+        quantity: 1
+    },
+
+    product2 = {
+        id: 2,
+        title: "Junior Baconator",
+        price: '10$',
+        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/yk8carryr48pnkz83lrb',
+        quantity: 1
+    },
+
+    product3 = {
+        id: 3,
+        title: "Portabella Melt",
+        price: '11$',
+        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/fzeepj0pky6ywxejtckd',
+        quantity: 1
+    },
+
+    product4 = {
+        id: 4,
+        title: "Steak Burger",
+        price: '9$',
+        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/ntrwfjb1ikdvscoja8wh',
+        quantity: 1
     }
-})
+]
+ 
+
+const createElement = (type, children) => {
+    const node = document.createElement(type);
+
+    if (children){
+        if (typeof children === 'string'){
+            const text = document.createTextNode(children);
+            node.appendChild(text);
+        }
+        else if (typeof children === 'object'){
+            node.appendChild(children)
+        }
+        // else if (children.isArray()){
+        //     children.forEach(item => {
+        //         node.appendChild(item)
+        //     })
+        // }
+    
+    }
+    return node;
+}
+
+products.forEach(product => {
+    const card = createElement('div');
+    console.log(card)
+    card.classList.add('card');
+
+    const productImage = createElement('img');
+    productImage.setAttribute('src', product.img);
+
+    const productTitle = createElement('h2', product.title);
+    productTitle.classList.add('product-name');
+
+    const productPrice = createElement('p');
+    productPrice.classList.add('product-price');
+    productPrice.textContent = "Price: " + product.price
+    
+
+    const buttonImg = createElement('img');
+    buttonImg.setAttribute('src', '../img/add-item.png');
+    const addToCartBtn = createElement('button', buttonImg);
+    addToCartBtn.classList.add('basket-button');
+
+    const block = createElement('div', productPrice);
+    block.classList.add('block')
+
+    container.appendChild(card);
+    card.appendChild(productImage);
+    card.appendChild(productTitle);
+    card.appendChild(block);
+    block.appendChild(addToCartBtn);
 
 
-addToBasketBtn.forEach(function(item){
-    item.addEventListener('click', function() {
-
-        const clickedProduct = cart.filter(product => (product.id == this.dataset.id));
+    addToCartBtn.addEventListener('click', function(){
+        const clickedProduct = cart.filter(item => (item.id == product.id));
 
         if (clickedProduct.length){
-            cart.map((product) => {
-                if (product.id === this.dataset.id) 
-                product.quantity = product.quantity + 1
+            cart.map((item) => {
+                if (item.id === product.id) 
+                item.quantity = item.quantity + 1
                 
-                return product;
+                return item;
             })
             renderCart();
         }
         else {
-            const product = {
-                id: this.dataset.id,
-                title: this.dataset.title,
-                price: this.dataset.price,
-                quantity: 1
-            }
 
             cart.push(product);
             renderCart();
+
         }
 
         countTotalPrice();
         countTotalQuantity();
-
     })
 
-    
-})    
+})
+
+
 
 const renderCart = () => {
     list.innerHTML = ''
@@ -62,8 +134,10 @@ const renderCart = () => {
 }
 
 const deleteItem = (item) => {
-        cart = cart.filter(product => (product.id !== item))
+        cart = cart.filter(elem => (elem.id != item));
 
+
+        console.log("kkkkkkkkkkkkk");
         countTotalPrice();
         countTotalQuantity();
         renderCart();
@@ -77,10 +151,16 @@ const countTotalQuantity = () => {
 const countTotalPrice = () => {
     const priceOfOneItem = cart.map(item => item.quantity * parseInt(item.price))
     const priceOfAllItems = priceOfOneItem.reduce((total, price) => total + price,0)
-    totalPrice.textContent = "Total Price: $" + priceOfAllItems
+    totalPrice.textContent = "Total Price: " + priceOfAllItems + '$'
     basketDropdown.appendChild(totalPrice)
     
 }
 
 
-
+basket.addEventListener('click', () => {
+    if (basketDropdown.style.display == 'block'){
+        basketDropdown.style.display = 'none'
+    } else {
+        basketDropdown.style.display = 'block';
+    }
+})
