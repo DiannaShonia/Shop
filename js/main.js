@@ -82,7 +82,7 @@ products.forEach(product => {
     
 
     const buttonImg = createElement('img');
-    buttonImg.setAttribute('src', '../img/add-item.png');
+    buttonImg.setAttribute('src', './img/add-item.png');
     const addToCartBtn = createElement('button', buttonImg);
     addToCartBtn.classList.add('basket-button');
 
@@ -137,7 +137,6 @@ const deleteItem = (item) => {
         cart = cart.filter(elem => (elem.id != item));
 
 
-        console.log("kkkkkkkkkkkkk");
         countTotalPrice();
         countTotalQuantity();
         renderCart();
