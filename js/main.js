@@ -10,7 +10,7 @@ let cart = [];
 
 
 const products = [
-    product1 = {
+    {
         id: 1,
         title: "Baconator",
         price: '14$',
@@ -18,7 +18,8 @@ const products = [
         quantity: 1
     },
 
-    product2 = {
+
+    {
         id: 2,
         title: "Junior Baconator",
         price: '10$',
@@ -26,7 +27,8 @@ const products = [
         quantity: 1
     },
 
-    product3 = {
+
+    {
         id: 3,
         title: "Portabella Melt",
         price: '11$',
@@ -34,7 +36,8 @@ const products = [
         quantity: 1
     },
 
-    product4 = {
+
+    {
         id: 4,
         title: "Steak Burger",
         price: '9$',
@@ -52,14 +55,14 @@ const createElement = (type, children) => {
             const text = document.createTextNode(children);
             node.appendChild(text);
         }
+        else if (Array.isArray(children)){
+            children.forEach(item => {
+                node.appendChild(item)
+            })
+        }
         else if (typeof children === 'object'){
             node.appendChild(children)
         }
-        // else if (children.isArray()){
-        //     children.forEach(item => {
-        //         node.appendChild(item)
-        //     })
-        // }
     
     }
     return node;
@@ -76,9 +79,9 @@ products.forEach(product => {
     const productTitle = createElement('h2', product.title);
     productTitle.classList.add('product-name');
 
-    const productPrice = createElement('p');
+    const productPrice = createElement('p', `Price: ${product.price}`);
     productPrice.classList.add('product-price');
-    productPrice.textContent = "Price: " + product.price
+
     
 
     const buttonImg = createElement('img');
@@ -86,14 +89,14 @@ products.forEach(product => {
     const addToCartBtn = createElement('button', buttonImg);
     addToCartBtn.classList.add('basket-button');
 
-    const block = createElement('div', productPrice);
+    const block = createElement('div', [productPrice, addToCartBtn]);
     block.classList.add('block')
 
     container.appendChild(card);
     card.appendChild(productImage);
     card.appendChild(productTitle);
     card.appendChild(block);
-    block.appendChild(addToCartBtn);
+ 
 
 
     addToCartBtn.addEventListener('click', function(){
