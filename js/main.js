@@ -1,4 +1,4 @@
-
+'use strict'
 const basket = document.querySelector('.basket');
 const basketDropdown = document.querySelector('.basket-dropdown');
 const counter = document.querySelector('.counter');
@@ -7,44 +7,7 @@ const addToBasketBtn = document.querySelectorAll('.basket-button');
 const list = document.getElementById('list');
 const totalPrice = document.createElement('p');
 let cart = [];
-
-
-const products = [
-    {
-        id: 1,
-        title: "Baconator",
-        price: '14$',
-        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/rcevvuiijfbaibsr1k6s',
-        quantity: 1
-    },
-
-
-    {
-        id: 2,
-        title: "Junior Baconator",
-        price: '10$',
-        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/yk8carryr48pnkz83lrb',
-        quantity: 1
-    },
-
-
-    {
-        id: 3,
-        title: "Portabella Melt",
-        price: '11$',
-        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/fzeepj0pky6ywxejtckd',
-        quantity: 1
-    },
-
-
-    {
-        id: 4,
-        title: "Steak Burger",
-        price: '9$',
-        img: 'https://res.cloudinary.com/glovoapp/w_680,h_240,c_fit,f_auto,q_auto/Products/ntrwfjb1ikdvscoja8wh',
-        quantity: 1
-    }
-]
+let products = [];
  
 
 const createElement = (type, children) => {
@@ -68,61 +31,81 @@ const createElement = (type, children) => {
     return node;
 }
 
-products.forEach(product => {
-    const card = createElement('div');
-    console.log(card)
-    card.classList.add('card');
 
-    const productImage = createElement('img');
-    productImage.setAttribute('src', product.img);
-
-    const productTitle = createElement('h2', product.title);
-    productTitle.classList.add('product-name');
-
-    const productPrice = createElement('p', `Price: ${product.price}`);
-    productPrice.classList.add('product-price');
-
-    
-
-    const buttonImg = createElement('img');
-    buttonImg.setAttribute('src', './img/add-item.png');
-    const addToCartBtn = createElement('button', buttonImg);
-    addToCartBtn.classList.add('basket-button');
-
-    const block = createElement('div', [productPrice, addToCartBtn]);
-    block.classList.add('block')
-
-    container.appendChild(card);
-    card.appendChild(productImage);
-    card.appendChild(productTitle);
-    card.appendChild(block);
- 
-
-
-    addToCartBtn.addEventListener('click', function(){
-        const clickedProduct = cart.filter(item => (item.id == product.id));
-
-        if (clickedProduct.length){
-            cart.map((item) => {
-                if (item.id === product.id) 
-                item.quantity = item.quantity + 1
-                
-                return item;
-            })
-            renderCart();
-        }
-        else {
-
-            cart.push(product);
-            renderCart();
-
-        }
-
-        countTotalPrice();
-        countTotalQuantity();
+fetch('https://6015ccf455dfbd00174ca967.mockapi.io/products')
+.then((res) => res.json())
+.then((data) => {
+    products = data;
+    products = products.map(item => {
+        item.quantity = 1;
+        return item
     })
 
+    for (let i = 0; i < 4; i++){
+
+        let product = products[i]
+
+        const card = createElement('div');
+        console.log(card)
+        card.classList.add('card');
+
+        const productImage = createElement('img');
+        productImage.setAttribute('src', product.img);
+
+        const productTitle = createElement('h2', product.title);
+        productTitle.classList.add('product-name');
+
+        const productPrice = createElement('p', `Price: ${product.price}`);
+        productPrice.classList.add('product-price');
+
+        
+
+        const buttonImg = createElement('img');
+        buttonImg.setAttribute('src', './img/add-item.png');
+        const addToCartBtn = createElement('button', buttonImg);
+        addToCartBtn.classList.add('basket-button');
+
+        const block = createElement('div', [productPrice, addToCartBtn]);
+        block.classList.add('block')
+
+        container.appendChild(card);
+        card.appendChild(productImage);
+        card.appendChild(productTitle);
+        card.appendChild(block);
+    
+
+
+        addToCartBtn.addEventListener('click', function(){
+            const clickedProduct = cart.filter(item => (item.id == product.id));
+
+            if (clickedProduct.length){
+                cart.map((item) => {
+                    if (item.id === product.id) 
+                    item.quantity = item.quantity + 1
+                    
+                    return item;
+                })
+                renderCart();
+            }
+            else {
+
+                cart.push(product);
+                renderCart();
+
+            }
+
+            countTotalPrice();
+            countTotalQuantity();
+        })
+
+    }
 })
+    
+
+
+
+
+
 
 
 
@@ -134,6 +117,7 @@ const renderCart = () => {
         <div class="delete-item" onclick="deleteItem('${item.id}')" ></div></li>`
     
     })  
+
 }
 
 const deleteItem = (item) => {
@@ -153,7 +137,7 @@ const countTotalQuantity = () => {
 const countTotalPrice = () => {
     const priceOfOneItem = cart.map(item => item.quantity * parseInt(item.price))
     const priceOfAllItems = priceOfOneItem.reduce((total, price) => total + price,0)
-    totalPrice.textContent = "Total Price: " + priceOfAllItems + '$'
+    totalPrice.textContent = `Total Price: ${priceOfAllItems}$`
     basketDropdown.appendChild(totalPrice)
     
 }
