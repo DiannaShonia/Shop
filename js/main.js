@@ -95,7 +95,7 @@ const createCard = ({
     .then((data) => {
   
       products = data
-        .filter((_, index) => index <= 4)
+        .filter((_, index) => index <= 3)
         .map(item => {
           item.quantity = 1;
           return item
