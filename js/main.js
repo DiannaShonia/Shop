@@ -31,81 +31,84 @@ const createElement = (type, children) => {
     return node;
 }
 
-
-fetch('https://6015ccf455dfbd00174ca967.mockapi.io/products')
-.then((res) => res.json())
-.then((data) => {
-    products = data;
-    products = products.map(item => {
-        item.quantity = 1;
-        return item
-    })
-
-    for (let i = 0; i < 4; i++){
-
-        let product = products[i]
-
-        const card = createElement('div');
-        console.log(card)
-        card.classList.add('card');
-
-        const productImage = createElement('img');
-        productImage.setAttribute('src', product.img);
-
-        const productTitle = createElement('h2', product.title);
-        productTitle.classList.add('product-name');
-
-        const productPrice = createElement('p', `Price: ${product.price}`);
-        productPrice.classList.add('product-price');
-
-        
-
-        const buttonImg = createElement('img');
-        buttonImg.setAttribute('src', './img/add-item.png');
-        const addToCartBtn = createElement('button', buttonImg);
-        addToCartBtn.classList.add('basket-button');
-
-        const block = createElement('div', [productPrice, addToCartBtn]);
-        block.classList.add('block')
-
-        container.appendChild(card);
-        card.appendChild(productImage);
-        card.appendChild(productTitle);
-        card.appendChild(block);
-    
-
-
-        addToCartBtn.addEventListener('click', function(){
-            const clickedProduct = cart.filter(item => (item.id == product.id));
-
-            if (clickedProduct.length){
-                cart.map((item) => {
-                    if (item.id === product.id) 
-                    item.quantity = item.quantity + 1
-                    
-                    return item;
-                })
-                renderCart();
-            }
-            else {
-
-                cart.push(product);
-                renderCart();
-
-            }
-
-            countTotalPrice();
-            countTotalQuantity();
+const createCard = ({
+    title,
+    id,
+    img,
+    price
+  }) => {
+  
+    const card = createElement('div');
+  
+    card.classList.add('card');
+  
+    const productImage = createElement('img');
+    productImage.setAttribute('src', img);
+  
+    const productTitle = createElement('h2', title);
+    productTitle.classList.add('product-name');
+  
+    const productPrice = createElement('p', `Price: ${price}`);
+    productPrice.classList.add('product-price');
+  
+  
+    const buttonImg = createElement('img');
+    buttonImg.setAttribute('src', './img/add-item.png');
+    const addToCartBtn = createElement('button', buttonImg);
+    addToCartBtn.classList.add('basket-button');
+  
+    const block = createElement('div', [productPrice, addToCartBtn]);
+    block.classList.add('block')
+  
+    card.appendChild(productImage);
+    card.appendChild(productTitle);
+    card.appendChild(block);
+  
+    addToCartBtn.addEventListener('click', function() {
+      const clickedProduct = cart.filter(item => (item.id == id));
+  
+      if (clickedProduct.length) {
+        cart.map((item) => {
+          if (item.id === id)
+            item.quantity = item.quantity + 1
+  
+          return item;
         })
-
-    }
-})
-    
-
-
-
-
-
+        renderCart();
+      } else {
+  
+        cart.push(product);
+        renderCart();
+  
+      }
+  
+      countTotalPrice();
+      countTotalQuantity();
+    })
+  
+    return card;
+  }
+  
+  
+  fetch('https://6015ccf455dfbd00174ca967.mockapi.io/products')
+    .then((res) => res.json())
+    .then((data) => {
+  
+      products = data
+        .filter((_, index) => index <= 4)
+        .map(item => {
+          item.quantity = 1;
+          return item
+        })
+        .forEach((product) => {
+  
+          const card = createCard(product);
+  
+          container.appendChild(card);
+        })
+  
+    })
+  
 
 
 
