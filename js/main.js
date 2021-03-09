@@ -31,24 +31,19 @@ const createElement = (type, children) => {
     return node;
 }
 
-const createCard = ({
-    title,
-    id,
-    img,
-    price
-  }) => {
+const createCard = (product) => {
   
     const card = createElement('div');
   
     card.classList.add('card');
   
     const productImage = createElement('img');
-    productImage.setAttribute('src', img);
+    productImage.setAttribute('src', product.image);
   
-    const productTitle = createElement('h2', title);
+    const productTitle = createElement('h2', product.title);
     productTitle.classList.add('product-name');
   
-    const productPrice = createElement('p', `Price: ${price}`);
+    const productPrice = createElement('p', `Price: ${product.price}$`);
     productPrice.classList.add('product-price');
   
   
@@ -65,11 +60,11 @@ const createCard = ({
     card.appendChild(block);
   
     addToCartBtn.addEventListener('click', function() {
-      const clickedProduct = cart.filter(item => (item.id == id));
+      const clickedProduct = cart.filter(item => (item.id === product.id));
   
       if (clickedProduct.length) {
         cart.map((item) => {
-          if (item.id === id)
+          if (item.id === product.id)
             item.quantity = item.quantity + 1
   
           return item;
@@ -79,7 +74,6 @@ const createCard = ({
   
         cart.push(product);
         renderCart();
-  
       }
   
       countTotalPrice();
@@ -90,25 +84,25 @@ const createCard = ({
   }
   
   
-  fetch('https://6015ccf455dfbd00174ca967.mockapi.io/products')
+  fetch('https://6015ccf455dfbd00174ca967.mockapi.io/products?fbclid=IwAR0PE6J6oZWF9fo_JteUAPmybDcCfaRJHdOuMWbCuVgfZbh07hAXIz3b9PA')
     .then((res) => res.json())
     .then((data) => {
   
+      
       products = data
         .filter((_, index) => index <= 3)
         .map(item => {
           item.quantity = 1;
           return item
+           
         })
         .forEach((product) => {
   
           const card = createCard(product);
-  
           container.appendChild(card);
         })
   
     })
-  
 
 
 
